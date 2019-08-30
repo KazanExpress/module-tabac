@@ -1,9 +1,10 @@
 export type TRuleCondition<U, T> = (user: U, target?: T, ...args: any[]) => boolean | Promise<boolean>;
+export type TRuleMap<U, T> = { [key: string]: TRuleCondition<U, T> | TRuleCondition<U, T>[] };
 
 export class Tabac<U, T> {
-  private rules: { [key: string]: (TRuleCondition<U, T>)[] } = {};
+  private rules: { [key: string]: TRuleCondition<U, T>[] } = {};
 
-  public addRule(name: string, condition: TRuleCondition<U, T> | TRuleCondition<U, T>[], namespace?: string) {
+  public addRule(name: string, condition: TRuleCondition<U, T> | TRuleCondition<U, T>[]) {
     const conditions = Array.isArray(condition) ? condition : [condition];
 
     if (this.rules[name]) {
@@ -13,13 +14,13 @@ export class Tabac<U, T> {
     }
   }
 
-  public addRules(ruleMap: { [key: string]: TRuleCondition<U, T> | TRuleCondition<U, T>[] }, namespace?: string) {
+  public addRules(ruleMap: TRuleMap<U, T>) {
     Object.keys(ruleMap).forEach(name => {
-      this.addRule(name, ruleMap[name], namespace);
+      this.addRule(name, ruleMap[name]);
     });
   }
 
-  public can(nameOrRegexp: string | RegExp, user: U, target?: T, ...args: any[]) {
+  protected can(nameOrRegexp: string | RegExp, user: U, target?: T, ...args: any[]) {
     if (typeof nameOrRegexp === 'object') {
       return Object.keys(this.rules)
         .filter(name => nameOrRegexp.test(name))
