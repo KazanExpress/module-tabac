@@ -4,6 +4,12 @@ export type TRuleMap<U, T> = { [key: string]: TRuleCondition<U, T> | TRuleCondit
 export class Tabac<U, T> {
   private rules: { [key: string]: TRuleCondition<U, T>[] } = {};
 
+  constructor(ruleMap?: TRuleMap<U, T>) {
+    if (ruleMap) {
+      this.addRules(ruleMap);
+    }
+  }
+
   public addRule(name: string, condition: TRuleCondition<U, T> | TRuleCondition<U, T>[]) {
     const conditions = Array.isArray(condition) ? condition : [condition];
 
