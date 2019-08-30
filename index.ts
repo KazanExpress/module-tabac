@@ -26,7 +26,7 @@ export class Tabac<U, T> {
     });
   }
 
-  protected can(nameOrRegexp: string | RegExp, user: U, target?: T, ...args: any[]) {
+  public can(nameOrRegexp: string | RegExp, user: U, target?: T, ...args: any[]) {
     if (typeof nameOrRegexp === 'object') {
       return Object.keys(this.rules)
         .filter(name => nameOrRegexp.test(name))
