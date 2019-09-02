@@ -21,7 +21,7 @@ Arguments:
 | Argument name | Type | Description |
 | --- | --- | --- |
 | `name` | `String` | Name of the rule in the map |
-| `condition` | `Function` or `Array` | Show file differences that haven't been staged |
+| `condition` | `Function` or `Array` | Checks the access  |
 
 ### **addRules**
 
