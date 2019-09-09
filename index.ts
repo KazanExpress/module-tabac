@@ -1,10 +1,13 @@
 export type TRuleCondition<U, T> = (user: U, target?: T, ...args: any[]) => boolean | Promise<boolean>;
 export type TRuleMap<U, T> = { [key: string]: TRuleCondition<U, T> | TRuleCondition<U, T>[] };
 
-export class Tabac<U, T> {
+export class Tabac<T, U> {
   private rules: { [key: string]: TRuleCondition<U, T>[] } = {};
 
-  constructor(ruleMap?: TRuleMap<U, T>) {
+  constructor(
+    public user: U,
+    ruleMap?: TRuleMap<U, T>
+  ) {
     if (ruleMap) {
       this.addRules(ruleMap);
     }
